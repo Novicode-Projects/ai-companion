@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { checkSubscription } from "@/lib/subscription";
 import { currentUser } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -58,6 +59,12 @@ export async function DELETE(
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const isPro = await checkSubscription();
+
+    if (!isPro) {
+      return new NextResponse("Pro subscription", { status: 403 });
     }
 
     const companion = await prismadb.companion.delete({

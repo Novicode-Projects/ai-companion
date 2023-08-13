@@ -30,8 +30,6 @@ const RootPage = async ({ searchParams }: RootPageProps) => {
     },
   });
 
-  console.log(data);
-
   const categories = await prismadb.category.findMany();
 
   return (
