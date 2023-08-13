@@ -27,8 +27,6 @@ export async function POST(
       return new NextResponse("Rate limit exceeded", { status: 429 });
     }
 
-    console.log("error");
-
     const companion = await prismadb.companion.update({
       where: {
         id: params.chatId,
@@ -44,8 +42,6 @@ export async function POST(
         },
       },
     });
-
-    console.log("comapanion");
 
     if (!companion) {
       return new NextResponse("Companion not found", { status: 404 });
